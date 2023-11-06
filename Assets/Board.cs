@@ -5,11 +5,12 @@ using UnityEngine;
 
 public class Board : MonoBehaviour
 {
-
+    public GameManager gameManager;
     public int Width;
     public int Height;
     public GameObject Tile;
     public float Size;
+
 
     // Start is called before the first frame update
     void Start()
@@ -19,7 +20,9 @@ public class Board : MonoBehaviour
         {
             for (int j = 0; j < Height; j++)
             {
-                Instantiate(Tile, new Vector3(i * Size, 0, j * Size) - center, new Quaternion(Mathf.Sqrt(2)/2,0,0,Mathf.Sqrt(2)/2)).transform.parent = gameObject.transform;
+                var tile = Instantiate(Tile, new Vector3(i * Size, 0, j * Size) - center, new Quaternion(Mathf.Sqrt(2) / 2, 0, 0, Mathf.Sqrt(2) / 2));
+                tile.transform.parent = gameObject.transform;
+                tile.GetComponent<Tile>().gameManager = gameManager;
             }
         }
     }

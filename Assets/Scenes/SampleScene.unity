@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028331, g: 0.2257133, b: 0.3069217, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -152,6 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd8ea647a5c747c408f3f762cdf099fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameManager: {fileID: 641960018}
   Width: 2
   Height: 2
   Tile: {fileID: 4857460077850429613, guid: 3b7c192bdb70b2543af9d371f9464ffd, type: 3}
@@ -170,6 +171,80 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &641960017
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 641960019}
+  - component: {fileID: 641960018}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &641960018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 641960017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b08029d72a631a488857ba311dd18a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CardPrefabs:
+  - Name: Akademik
+    Floors: 3
+    Residents: 50
+    Height: 30
+    Area: 20
+    Image: {fileID: 21300000, guid: f6b813fa518b310439f443a1d310f3d2, type: 3}
+    BuildingMesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  - Name: "Wydzia\u0142"
+    Floors: 9
+    Residents: 100
+    Height: 70
+    Area: 40
+    Image: {fileID: 21300000, guid: 0627da14d4e60094fbbdeabfb15ab879, type: 3}
+    BuildingMesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+  - Name: 
+    Floors: 0
+    Residents: 0
+    Height: 0
+    Area: 0
+    Image: {fileID: 0}
+    BuildingMesh: {fileID: 0}
+  - Name: 
+    Floors: 0
+    Residents: 0
+    Height: 0
+    Area: 0
+    Image: {fileID: 0}
+    BuildingMesh: {fileID: 0}
+  CurrentDeck: 000000000100000000000000
+--- !u!4 &641960019
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 641960017}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 356.72632, y: 256.64233, z: -112.26538}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &705507993
 GameObject:
@@ -576,22 +651,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b071158684097541b00281003b246c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameManager: {fileID: 641960018}
   UICard: {fileID: 7920897611449822597, guid: 557683ea2b65cfa4099a2dae622d9603, type: 3}
-  CardTypes:
-  - Name: "Wydzia\u0142 AEII"
-    Floors: 8
-    Residents: 2
-    Height: 34
-    Area: 34
-    Image: {fileID: 21300000, guid: 0627da14d4e60094fbbdeabfb15ab879, type: 3}
-    BuildingMesh: {fileID: 0}
-  - Name: Akademik
-    Floors: 5
-    Residents: 30
-    Height: 50
-    Area: 100
-    Image: {fileID: 21300000, guid: f6b813fa518b310439f443a1d310f3d2, type: 3}
-    BuildingMesh: {fileID: 0}
-  Cards: 00000000010000000000000001000000
   BottomMargin: 150
   CardGap: 150

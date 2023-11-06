@@ -5,27 +5,13 @@ using UnityEngine;
 using System;
 using UnityEngine.UI;
 using System.Collections.Specialized;
-
-[Serializable]
-public struct CardType 
-{
-    public string Name;
-    public int Floors;
-    public int Residents;
-    public float Height;
-    public float Area;
-
-    public Sprite Image;
-    public Mesh BuildingMesh;
-}
+using System.Security.Permissions;
 
 public class Deck : MonoBehaviour
 {
     private GameObject canvas;
-
+    public GameManager gameManager;
     public GameObject UICard;
-    public CardType[] CardTypes;
-    public int[] Cards;
 
     public float BottomMargin;
     public float CardGap;
@@ -38,12 +24,13 @@ public class Deck : MonoBehaviour
             this.canvas = canvas.gameObject;
             if(this.canvas.GetComponent<RectTransform>() is RectTransform rectTr)
             {
-                float deckWidth = (Cards.Length - 1) * CardGap;
+                float deckWidth = (gameManager.CurrentDeck.Count - 1) * CardGap;
                 Vector3 left = new Vector3((rectTr.rect.width - deckWidth) * 0.5f, BottomMargin, 0);
                 Vector3 position = left;
-                foreach(var cardId in Cards)
+                int i = 0;
+                foreach(var cardId in gameManager.CurrentDeck)
                 {
-                    var card = createCardUi(cardId, position);
+                    var card = createCardUi(cardId, position, i++);
                     card.transform.SetParent(this.canvas.transform);
                     position += new Vector3(CardGap, 0, 0);
                 }
@@ -51,11 +38,12 @@ public class Deck : MonoBehaviour
         }
     }
 
-    GameObject createCardUi(int id, Vector3 position)
+    GameObject createCardUi(int id, Vector3 position, int instance)
     {
 	var card = Instantiate(UICard, position, Quaternion.identity);
-	card.GetComponent<CardUI>()?.Instantiate(CardTypes[id]);
+        card.GetComponent<CardUI>()?.Instantiate(gameManager.CardPrefabs[id], () => { gameManager.CurrentCard = gameManager.CardPrefabs[gameManager.CurrentDeck[instance]]; }) ;
         return card;
+
     }
 
     // Update is called once per frame
