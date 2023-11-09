@@ -21,7 +21,7 @@ public class CameraController : MonoBehaviour
     }
 
     void computeOrientation(){
-        Vector3 position = new Vector3(0, 0, - radius);
+        Vector3 position = new Vector3(0, -1, - radius);
         var orientation = Quaternion.AngleAxis(cameraOrientation.x, new Vector3(0, 1, 0)) * Quaternion.AngleAxis(cameraOrientation.y, new Vector3(-1, 0, 0));
         gameObject.transform.localRotation = orientation;
         position = orientation * position;

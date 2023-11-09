@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 public class Board : MonoBehaviour
@@ -22,7 +23,9 @@ public class Board : MonoBehaviour
             {
                 var tile = Instantiate(Tile, new Vector3(i * Size, 0, j * Size) - center, new Quaternion(Mathf.Sqrt(2) / 2, 0, 0, Mathf.Sqrt(2) / 2));
                 tile.transform.parent = gameObject.transform;
-                tile.GetComponent<Tile>().gameManager = gameManager;
+                Tile tile_component = tile.GetComponent<Tile>();
+                tile_component.gameManager = gameManager;
+                tile_component.Instantiate(i * Height + j);
             }
         }
     }
