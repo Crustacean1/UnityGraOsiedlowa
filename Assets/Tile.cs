@@ -35,6 +35,18 @@ public class Tile : MonoBehaviour
         Border.enabled = false;
     }
 
+    void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            UnityEngine.Debug.Log("Clickin");
+            if (hover)
+            {
+                OnClick();
+            }
+        }
+    }
+
     // Update is called once per frame
     void FixedUpdate()
     {
@@ -54,10 +66,6 @@ public class Tile : MonoBehaviour
                 OnHoverExit();
                 hover = false;
             }
-        }
-
-        if (hover && Input.GetMouseButtonDown(0)){
-            OnClick();
         }
     }
     void OnHoverEntry()
