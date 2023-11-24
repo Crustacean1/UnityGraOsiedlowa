@@ -12,10 +12,12 @@ public class Tile : MonoBehaviour
     public MeshRenderer Center;
     public bool IsActive;
     public Collider collider;
-    public GameManager gameManager;
     private bool hover;
+
     public MeshFilter building;
     public MeshRenderer renderer;
+
+    public GameController gameManager;
 
     enum TileState
     {

@@ -1,0 +1,39 @@
+{
+  "Buildings": [
+    {
+      "Name": "Home",
+      "Image": "home.png",
+      "Mesh": "home.obj",
+      "Properties": {
+        "intensity": 0.2,
+        "floors": 2,
+        "vegetation": 0.5,
+        "population": 5
+      }
+    },
+    {
+      "Name": "Office",
+      "Image": "office.png"
+    },
+    {
+      "Name": "Shop",
+      "Image": "shop.png"
+    },
+    {
+      "Name": "Hotel",
+      "Image": "hotel.png"
+    },
+    {
+      "Name": "Theather",
+      "Image": "home.png"
+    },
+    {
+      "Name": "Square",
+      "Image": "home.png"
+    },
+    {
+      "Name": "Power plant",
+      "Image": "home.png"
+    }
+  ]
+}

@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Board : MonoBehaviour
 {
-    public GameManager gameManager;
+    public GameController gameManager;
     public int Width;
     public int Height;
     public GameObject Tile;
