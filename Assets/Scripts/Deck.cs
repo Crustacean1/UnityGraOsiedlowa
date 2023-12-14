@@ -43,7 +43,7 @@ public class Deck : MonoBehaviour
     GameObject createCardUi(BuildingDefinition building, Vector3 position, int instance)
     {
         var card = Instantiate(UICard, new Vector3(0, 0, 0), Quaternion.identity);
-        card.GetComponent<CardUI>()?.Instantiate(building, () => { gameManager.SelectCard(instance); });
+      //  card.GetComponent<CardUI>()?.Instantiate(building, () => { gameManager.SelectCard(instance); });
 
         return card;
 

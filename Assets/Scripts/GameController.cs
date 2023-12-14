@@ -35,7 +35,7 @@ public class GameController : MonoBehaviour
             player = godScript.Player;
         }
         var buildings = Resources.Load<TextAsset>("BuildingDefinitions/buildings");
-        BuildingDefinitions = JsonUtility.FromJson<BuildingContainer>(buildings?.text ?? "[]")?.Buildings ?? new List<BuildingDefinition>();
+       // BuildingDefinitions = JsonUtility.FromJson<BuildingContainer>(buildings?.text ?? "[]")?.Buildings ?? new List<BuildingDefinition>();
     }
 
     void SelectCard(int id)
@@ -50,8 +50,8 @@ public class GameController : MonoBehaviour
 
         while (newCards.Count() < CardsToDraw)
         {
-            int pretender = random.Next(0, BuildingDefinitions.Count());
-            if (!newCards.Contains(pretender)) { newCards.Add(pretender); }
+          //  int pretender = random.Next(0, BuildingDefinitions.Count());
+         //   if (!newCards.Contains(pretender)) { newCards.Add(pretender); }
         }
         CurrentDeck = newCards.Select(i => BuildingDefinitions[i]).ToList();
     }

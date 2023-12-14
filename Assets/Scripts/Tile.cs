@@ -75,13 +75,13 @@ public class Tile : MonoBehaviour
         Border.enabled = true;
         switch (State)
         {
-            case TileState.Empty:
-                if (gameManager.CurrentCard is BuildingCard CurrentCard)
-                {
-                    building.mesh = CurrentCard.BuildingMesh;
-                    renderer.enabled = true;
-                }
-                break;
+          //  case TileState.Empty:
+             //   if (gameManager.CurrentCard is BuildingCard CurrentCard)
+             //   {
+             //       building.mesh = CurrentCard.BuildingMesh;
+              //      renderer.enabled = true;
+             //   }
+             //   break;
             case TileState.Occupied:
                 Border.enabled = true;
                 Border.material.color = Color.red;
