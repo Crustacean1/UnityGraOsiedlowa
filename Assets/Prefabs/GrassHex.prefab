@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1104526797277700947}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.57, y: 1, z: 147.88}
+  m_LocalPosition: {x: -5.62, y: 1, z: 147.88}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -52,7 +52,7 @@ GameObject:
   - component: {fileID: 5361726375579450768}
   - component: {fileID: 5361726375579450769}
   m_Layer: 0
-  m_Name: Cube (5)
+  m_Name: GrassCube 5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -396,7 +396,7 @@ GameObject:
   - component: {fileID: 5361726375678856535}
   - component: {fileID: 5361726375678856532}
   m_Layer: 0
-  m_Name: Cube (3)
+  m_Name: GrassCube 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -740,7 +740,7 @@ GameObject:
   - component: {fileID: 5361726376016113705}
   - component: {fileID: 5361726376016113710}
   m_Layer: 0
-  m_Name: Cube (2)
+  m_Name: GrassCube 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1084,7 +1084,7 @@ GameObject:
   - component: {fileID: 5361726376154191848}
   - component: {fileID: 5361726376154191849}
   m_Layer: 0
-  m_Name: Cube (1)
+  m_Name: GrassCube 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1428,7 +1428,7 @@ GameObject:
   - component: {fileID: 5361726376777932750}
   - component: {fileID: 5361726376777932751}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: GrassCube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1772,7 +1772,7 @@ GameObject:
   - component: {fileID: 5361726376861307182}
   - component: {fileID: 5361726376861307183}
   m_Layer: 0
-  m_Name: Cube (4)
+  m_Name: GrassCube 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
