@@ -20,7 +20,7 @@ public class Deck : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (gameObject.transform.GetChild(0) is Transform parentCanvas && parentCanvas.GetChild(0) is Transform canvas)
+        /*if (gameObject.transform.GetChild(0) is Transform parentCanvas && parentCanvas.GetChild(0) is Transform canvas)
         {
             this.canvas = canvas.gameObject;
             if (this.canvas.GetComponent<RectTransform>() is RectTransform rectTr)
@@ -37,7 +37,7 @@ public class Deck : MonoBehaviour
                     position += new Vector3(CardGap, 0, 0);
                 }
             }
-        }
+        }*/
     }
 
     GameObject createCardUi(BuildingDefinition building, Vector3 position, int instance)
