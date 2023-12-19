@@ -178,6 +178,7 @@ namespace UnityEngine.AI
                 m_NavMeshData = data;
                 if (isActiveAndEnabled)
                     AddData();
+                UnityEngine.Debug.Log(sources.Count);
             }
         }
 

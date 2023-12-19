@@ -108,14 +108,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2791627814950872085}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0.9}
+  m_LocalScale: {x: 1, y: 1.67, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2290560304978154631}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!33 &1357238666963441048
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -123,7 +123,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2791627814950872085}
-  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &3270179260012376959
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -297,13 +297,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a05b57524d879ef4199acff139c1445d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 0
   Border: {fileID: 3741174853402099233}
   Center: {fileID: 3270179260012376959}
   IsActive: 0
   collider: {fileID: 296265766}
-  gameManager: {fileID: 0}
   building: {fileID: 875333158}
   renderer: {fileID: 875333159}
+  gameManager: {fileID: 0}
 --- !u!64 &296265766
 MeshCollider:
   m_ObjectHideFlags: 0
