@@ -10,9 +10,20 @@ public class BuildingInstance
     public Mesh mesh;
 }
 
+public struct BuildingContainer
+{
+    public List<BuildingDefinition> Buildings;
+}
+
+public struct Score
+{
+    public float QualityOfLife;
+    public int Population;
+    public float Pkb;
+}
+
 public class GameController : MonoBehaviour
 {
-    private int selectedCard = -1;
     private LevelDefinition levelInfo;
     private Player player;
 
@@ -21,10 +32,7 @@ public class GameController : MonoBehaviour
     public LevelDefinition LevelInfo => levelInfo;
     public Player Player => player;
 
-    public List<BuildingDefinition> BuildingDefinitions;
-    public List<BuildingDefinition> CurrentDeck;
-
-    public BuildingDefinition SelectedCard => selectedCard == -1 ? null : CurrentDeck[selectedCard];
+    public Deck CardDeck;
 
     // Start is called before the first frame update
     void Start()
@@ -34,26 +42,37 @@ public class GameController : MonoBehaviour
             levelInfo = godScript.CurrentLevel;
             player = godScript.Player;
         }
-        var buildings = Resources.Load<TextAsset>("BuildingDefinitions/buildings");
-       // BuildingDefinitions = JsonUtility.FromJson<BuildingContainer>(buildings?.text ?? "[]")?.Buildings ?? new List<BuildingDefinition>();
-    }
-
-    void SelectCard(int id)
-    {
-        selectedCard = id;
-    }
-
-    void DrawCards()
-    {
-        List<int> newCards = new();
-        System.Random random;
-
-        while (newCards.Count() < CardsToDraw)
+        else
         {
-          //  int pretender = random.Next(0, BuildingDefinitions.Count());
-         //   if (!newCards.Contains(pretender)) { newCards.Add(pretender); }
+            levelInfo = new LevelDefinition
+            {
+                Bombs = 3,
+                Requirements = new List<Requirement> {
+                    new Requirement {
+                    Name = "Population" ,
+                    Min = 10,
+                    Max = 100
+                } ,
+                    new Requirement {
+                    Name = "GDP" ,
+                    Min = 500,
+                    Max = 1000
+                }
+                },
+                Name = "Randy",
+                Difficulty = "Dev"
+            };
         }
-        CurrentDeck = newCards.Select(i => BuildingDefinitions[i]).ToList();
+    }
+
+    public bool TrySpendBomb()
+    {
+        if (levelInfo.Bombs > 0)
+        {
+            levelInfo.Bombs -= 1;
+            return true;
+        }
+        return false;
     }
 
     // Update is called once per frame

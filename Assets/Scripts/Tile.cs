@@ -1,47 +1,63 @@
 using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using UnityEngine;
 
+public class TileSelectedEvent : EventArgs
+{
+    public Tile Tile;
+}
+
+public class BuildingSelectedEvent : EventArgs
+{
+    public Tile Tile;
+    public BuildingDefinition Definition;
+}
+
 public class Tile : MonoBehaviour
 {
-    public int id;
-    public MeshRenderer Border;
-    public MeshRenderer Center;
-    public bool IsActive;
-    public Collider collider;
     private bool hover;
+    private MeshRenderer tileMesh;
+    private Deck cardDeck;
+    private Board board;
 
+    public int id;
+    public bool IsActive;
+    public MeshCollider collider;
+
+    public Material SelectionMaterial;
     public MeshFilter building;
-    public MeshRenderer renderer;
+    public MeshRenderer mesh_renderer;
+    public List<GameObject> Landscapes;
 
-    public GameController gameManager;
+    public event EventHandler<BuildingSelectedEvent> BuildingSelected;
+    public event EventHandler<TileSelectedEvent> TileSelected;
 
-    enum TileState
-    {
-        Empty,
-        Occupied,
-    }
-    TileState State = TileState.Empty;
-
-    public void Instantiate(int id)
+    public void Instantiate(Deck cardDeck, Board board, int id, int landscape)
     {
         this.id = id;
+        this.cardDeck = cardDeck;
+        this.board = board;
+
+        var tile = Instantiate(Landscapes[landscape], gameObject.transform);
+        tile.transform.localPosition = new Vector3(0, 0, 0);
+        tile.transform.localRotation = Quaternion.identity;
+        tileMesh = tile.transform.GetChild(0).gameObject.GetComponent<MeshRenderer>();
+        collider = tile.GetComponent<MeshCollider>();
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        Border.enabled = false;
     }
 
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            UnityEngine.Debug.Log("Clickin");
             if (hover)
             {
                 OnClick();
@@ -49,13 +65,24 @@ public class Tile : MonoBehaviour
         }
     }
 
+    public void Demolish()
+    {
+        foreach (Transform building in transform)
+        {
+            if (building.gameObject.GetComponent<Building>() is not null)
+            {
+                Destroy(building.gameObject);
+            }
+        }
+    }
+
     // Update is called once per frame
     void FixedUpdate()
     {
-	    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (collider.Raycast(ray, out var hit, Mathf.Infinity))
         {
-            if(!hover)
+            if (!hover)
             {
                 hover = true;
                 OnHoverEntry();
@@ -72,46 +99,42 @@ public class Tile : MonoBehaviour
     }
     void OnHoverEntry()
     {
-        Border.enabled = true;
-        switch (State)
+        var color = Color.white;
+        if (cardDeck.SelectedBuildingDefinition is not null)
         {
-          //  case TileState.Empty:
-             //   if (gameManager.CurrentCard is BuildingCard CurrentCard)
-             //   {
-             //       building.mesh = CurrentCard.BuildingMesh;
-              //      renderer.enabled = true;
-             //   }
-             //   break;
-            case TileState.Occupied:
-                Border.enabled = true;
-                Border.material.color = Color.red;
-                break;
+            color = transform.childCount > 3 ? Color.red : Color.yellow;
         }
-
+        var materials = new Material[] { tileMesh.material, SelectionMaterial };
+        materials[1].color = color;
+        tileMesh.materials = materials;
     }
+
     void OnHoverExit()
     {
-        Border.enabled = false;
-        switch (State)
-        {
-            case TileState.Empty:
-                renderer.enabled = false;
-                break;
-            case TileState.Occupied:
-                break;
-        }
-
+        var materials = new Material[] { tileMesh.material };
+        tileMesh.materials = materials;
     }
+
     void OnClick()
     {
-        UnityEngine.Debug.Log($"Pressed on hover: {id}");
-        switch (State)
+        if (cardDeck.SelectedBuildingDefinition is BuildingDefinition definition)
         {
-            case TileState.Empty:
-                State = TileState.Occupied;
-                break;
-            case TileState.Occupied:
-                break;
+            TileSelected?.Invoke(this, new TileSelectedEvent { Tile = this });
+        }
+
+        else
+        {
+            foreach (Transform child in transform)
+            {
+                if (child.GetComponent<Building>() is Building building)
+                {
+                    BuildingSelected?.Invoke(this, new BuildingSelectedEvent
+                    {
+                        Tile = this,
+                        Definition = building.Definition
+                    });
+                }
+            }
         }
     }
 }

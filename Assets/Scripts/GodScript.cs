@@ -5,11 +5,19 @@ using UnityEngine;
 using System.Text.Json;
 using UnityEngine.SceneManagement;
 
+
+public class Requirement
+{
+    public string Name;
+    public float Min;
+    public float Max;
+}
+
 [Serializable]
 public class LevelDefinition
 {
     public int Bombs;
-    public Parameter Parameters;
+    public List<Requirement> Requirements;
     public string Name;
     public string Difficulty;
 }
@@ -28,7 +36,7 @@ public class BuildingDefinition
     public string Sprite;
     public string Mesh;
 
-    List<BuildingProperty> Properties;
+    public IDictionary<string, float> Properties = new Dictionary<string, float>();
 }
 
 public class Player

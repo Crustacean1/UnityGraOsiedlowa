@@ -1,9 +1,9 @@
 {
   "Buildings": [
     {
-      "Name": "Home",
-      "Image": "home.png",
-      "Mesh": "home.obj",
+      "Name": "Fire Station",
+      "Sprite": "hotel",
+      "Mesh": "Fire_Station",
       "Properties": {
         "intensity": 0.2,
         "floors": 2,
@@ -12,28 +12,29 @@
       }
     },
     {
-      "Name": "Office",
-      "Image": "office.png"
+      "Name": "Hospital",
+      "Sprite": "hospital",
+      "Mesh": "Hospital"
     },
     {
-      "Name": "Shop",
-      "Image": "shop.png"
+      "Name": "Market",
+      "Sprite": "theather",
+      "Mesh": "Market"
     },
     {
-      "Name": "Hotel",
-      "Image": "hotel.png"
+      "Name": "Police Station",
+      "Sprite": "office",
+      "Mesh": "Police_Station"
     },
     {
-      "Name": "Theather",
-      "Image": "home.png"
+      "Name": "School",
+      "Sprite": "home",
+      "Mesh": "School"
     },
     {
-      "Name": "Square",
-      "Image": "home.png"
-    },
-    {
-      "Name": "Power plant",
-      "Image": "home.png"
+      "Name": "Workshop",
+      "Sprite": "square",
+      "Mesh": "Workshop"
     }
   ]
 }

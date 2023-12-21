@@ -15,19 +15,32 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public TMP_Text Residents;
     public Image CardImage;
 
-    private Action clickHandler;
+    private Deck CardDeck;
+    private BuildingDefinition buildingDefinition;
     private bool hover;
 
 
-    public void Instantiate(BuildingDefinition cardInfo, Action onClick)
+    public void Instantiate(Deck cardDeck, BuildingDefinition cardInfo)
     {
+        this.CardDeck = cardDeck;
+        buildingDefinition = cardInfo;
+
         Name.text = cardInfo.Name;
         Height.text = $"Height: ";
         Area.text = $"Area: ";
         Floors.text = $"Floors: ";
         Residents.text = $"People: ";
-        //CardImage.sprite = cardInfo.Image;
-        clickHandler = onClick;
+
+        UnityEngine.Debug.Log($"BuildingImages/{cardInfo.Sprite}");
+        var sprite = Resources.Load<Sprite>($"BuildingImages/{cardInfo.Sprite}");
+        if(sprite is not null)
+        {
+            CardImage.sprite = sprite;
+        }
+        else
+        {
+            UnityEngine.Debug.Log("Failed to load sprite");
+        }
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -52,7 +65,7 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         if (Input.GetMouseButtonDown(0) && hover)
         {
-            clickHandler?.Invoke();
+            CardDeck.SelectCard(buildingDefinition.Name);
         }
     }
 }
