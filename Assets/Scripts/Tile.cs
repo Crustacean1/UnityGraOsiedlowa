@@ -21,12 +21,11 @@ public class Tile : MonoBehaviour
 {
     private bool hover;
     private MeshRenderer tileMesh;
-    private Deck cardDeck;
     private Board board;
 
     public int id;
     public bool IsActive;
-    public MeshCollider collider;
+    public MeshCollider tileCollider;
 
     public Material SelectionMaterial;
     public MeshFilter building;
@@ -36,17 +35,16 @@ public class Tile : MonoBehaviour
     public event EventHandler<BuildingSelectedEvent> BuildingSelected;
     public event EventHandler<TileSelectedEvent> TileSelected;
 
-    public void Instantiate(Deck cardDeck, Board board, int id, int landscape)
+    public void Instantiate(Board board, int id, int landscape)
     {
         this.id = id;
-        this.cardDeck = cardDeck;
         this.board = board;
 
         var tile = Instantiate(Landscapes[landscape], gameObject.transform);
         tile.transform.localPosition = new Vector3(0, 0, 0);
         tile.transform.localRotation = Quaternion.identity;
         tileMesh = tile.transform.GetChild(0).gameObject.GetComponent<MeshRenderer>();
-        collider = tile.GetComponent<MeshCollider>();
+        tileCollider = tile.GetComponent<MeshCollider>();
     }
 
     // Start is called before the first frame update
@@ -79,31 +77,57 @@ public class Tile : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (collider.Raycast(ray, out var hit, Mathf.Infinity))
+        if (board.RaycastEnabled)
         {
-            if (!hover)
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (tileCollider.Raycast(ray, out var hit, Mathf.Infinity))
             {
-                hover = true;
-                OnHoverEntry();
+                if (!hover)
+                {
+                    hover = true;
+                    OnHoverEntry();
+                }
+                return;
             }
         }
-        else
+        if (hover)
         {
-            if (hover)
-            {
-                OnHoverExit();
-                hover = false;
-            }
+            OnHoverExit();
+            hover = false;
         }
+
     }
+
+    public bool IsEmpty()
+    {
+        return transform.childCount < 4;
+    }
+
+    public BuildingDefinition GetBuildingDefinition()
+    {
+        foreach (Transform child in transform)
+        {
+            if (child.GetComponent<Building>() is Building building)
+            {
+                return building.Definition;
+            }
+        }
+        return null;
+    }
+
     void OnHoverEntry()
     {
         var color = Color.white;
-        if (cardDeck.SelectedBuildingDefinition is not null)
+
+        if (board.SelectedBuildingDefinition is not null && board.CurrentPlayerAction == PlayerAction.Building)
         {
-            color = transform.childCount > 3 ? Color.red : Color.yellow;
+            color = GetBuildingDefinition() != null ? Color.yellow : Color.green;
         }
+        else if (board.CurrentPlayerAction == PlayerAction.Bombing)
+        {
+            color = GetBuildingDefinition() != null ? Color.red : Color.grey;
+        }
+
         var materials = new Material[] { tileMesh.material, SelectionMaterial };
         materials[1].color = color;
         tileMesh.materials = materials;
@@ -117,24 +141,17 @@ public class Tile : MonoBehaviour
 
     void OnClick()
     {
-        if (cardDeck.SelectedBuildingDefinition is BuildingDefinition definition)
+        if (GetBuildingDefinition() is BuildingDefinition definition)
         {
-            TileSelected?.Invoke(this, new TileSelectedEvent { Tile = this });
+            BuildingSelected?.Invoke(this, new BuildingSelectedEvent
+            {
+                Tile = this,
+                Definition = definition
+            });
         }
-
         else
         {
-            foreach (Transform child in transform)
-            {
-                if (child.GetComponent<Building>() is Building building)
-                {
-                    BuildingSelected?.Invoke(this, new BuildingSelectedEvent
-                    {
-                        Tile = this,
-                        Definition = building.Definition
-                    });
-                }
-            }
+            TileSelected?.Invoke(this, new TileSelectedEvent { Tile = this });
         }
     }
 }

@@ -1441,24 +1441,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LevelDefinitions:
   - Bombs: 5
-    Parameters:
-      Name: 
+    Requirements:
+    - Name: Pkb
+      Current: 10
       Min: 0
-      Max: 0
+      Max: 200
+    - Name: Population
+      Current: 100
+      Min: 0
+      Max: 200
     Name: Easy
     Difficulty: 
   - Bombs: 2
-    Parameters:
-      Name: 
+    Requirements:
+    - Name: MediumRequirement
+      Current: 1
       Min: 0
-      Max: 0
+      Max: 1
     Name: Medium
     Difficulty: 
   - Bombs: 1
-    Parameters:
-      Name: 
+    Requirements:
+    - Name: Hard Requirement
+      Current: 1
       Min: 0
-      Max: 0
+      Max: 1
     Name: Hard
     Difficulty: 
   BuildingDefinitions: []

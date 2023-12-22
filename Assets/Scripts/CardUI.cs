@@ -6,6 +6,11 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
 
+public class BuildingCardSelectedEvent
+{
+    public BuildingDefinition definition;
+}
+
 public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public TMP_Text Name;
@@ -15,14 +20,13 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public TMP_Text Residents;
     public Image CardImage;
 
-    private Deck CardDeck;
+    public event EventHandler<BuildingCardSelectedEvent> CardSelected;
+
     private BuildingDefinition buildingDefinition;
     private bool hover;
 
-
-    public void Instantiate(Deck cardDeck, BuildingDefinition cardInfo)
+    public void Instantiate(BuildingDefinition cardInfo)
     {
-        this.CardDeck = cardDeck;
         buildingDefinition = cardInfo;
 
         Name.text = cardInfo.Name;
@@ -33,7 +37,7 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
         UnityEngine.Debug.Log($"BuildingImages/{cardInfo.Sprite}");
         var sprite = Resources.Load<Sprite>($"BuildingImages/{cardInfo.Sprite}");
-        if(sprite is not null)
+        if (sprite is not null)
         {
             CardImage.sprite = sprite;
         }
@@ -65,7 +69,7 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         if (Input.GetMouseButtonDown(0) && hover)
         {
-            CardDeck.SelectCard(buildingDefinition.Name);
+            CardSelected?.Invoke(this, new BuildingCardSelectedEvent { definition = buildingDefinition });
         }
     }
 }

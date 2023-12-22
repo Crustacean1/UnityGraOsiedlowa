@@ -6,9 +6,11 @@ using System.Text.Json;
 using UnityEngine.SceneManagement;
 
 
+[Serializable]
 public class Requirement
 {
     public string Name;
+    public float Current;
     public float Min;
     public float Max;
 }
@@ -36,13 +38,14 @@ public class BuildingDefinition
     public string Sprite;
     public string Mesh;
 
-    public IDictionary<string, float> Properties = new Dictionary<string, float>();
+    public Dictionary<string, float> Properties = new Dictionary<string, float>();
 }
 
 public class Player
 {
     public string Name;
 }
+
 
 public class GodScript : MonoBehaviour
 {
@@ -83,6 +86,11 @@ public class GodScript : MonoBehaviour
         this.player = player;
 
         SceneManager.LoadSceneAsync("MainGameScene", LoadSceneMode.Single);
+    }
+
+    public void FinishGame()
+    {
+        SceneManager.LoadSceneAsync("EndScene", LoadSceneMode.Single);
     }
 
     // Update is called once per frame

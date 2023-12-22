@@ -9,6 +9,7 @@ public class PoVController : MonoBehaviour
 
     public float MovementSpeed;
     public float TurnSpeed;
+    public Rigidbody Physical;
 
     // Start is called before the first frame update
     void Start()
@@ -41,9 +42,17 @@ public class PoVController : MonoBehaviour
         yTurn += TurnSpeed * Input.GetAxis("Mouse Y");
 
         transform.rotation = Quaternion.AngleAxis(xTurn, Vector3.up) * Quaternion.AngleAxis(yTurn, Vector3.left);
+
         var direction = transform.TransformVector(delta);
         direction.y = 0;
         direction.Normalize();
-        transform.localPosition += direction * MovementSpeed;
+
+        Physical.AddForce(direction * MovementSpeed, ForceMode.Impulse);
+        var unconstrained = Physical.gameObject.transform.localPosition;
+        Physical.gameObject.transform.localPosition = new Vector3(
+            Mathf.Clamp(unconstrained.x, -10, 10),
+            unconstrained.y,
+            Mathf.Clamp(unconstrained.z, -10, 10)
+            );
     }
 }

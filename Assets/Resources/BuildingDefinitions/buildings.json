@@ -5,36 +5,60 @@
       "Sprite": "hotel",
       "Mesh": "Fire_Station",
       "Properties": {
-        "intensity": 0.2,
-        "floors": 2,
-        "vegetation": 0.5,
-        "population": 5
+        "Pkb": 0.2,
+        "Floors": 2,
+        "Population": 5
       }
     },
     {
       "Name": "Hospital",
       "Sprite": "hospital",
-      "Mesh": "Hospital"
+      "Mesh": "Hospital",
+      "Properties": {
+        "Pkb": 0.2,
+        "Floors": 2,
+        "Population": 5
+      }
     },
     {
       "Name": "Market",
       "Sprite": "theather",
-      "Mesh": "Market"
+      "Mesh": "Market",
+      "Properties": {
+        "Pkb": 0.2,
+        "Floors": 2,
+        "Population": 5
+      }
     },
     {
       "Name": "Police Station",
       "Sprite": "office",
-      "Mesh": "Police_Station"
+      "Mesh": "Police_Station",
+      "Properties": {
+        "Pkb": 0.2,
+        "Floors": 2,
+        "Population": 5
+      }
     },
     {
       "Name": "School",
       "Sprite": "home",
-      "Mesh": "School"
+      "Mesh": "School",
+      "Properties": {
+        "Pkb": 0.2,
+        "Floors": 2,
+        "Population": 5
+      }
     },
     {
       "Name": "Workshop",
       "Sprite": "square",
-      "Mesh": "Workshop"
+      "Mesh": "Workshop",
+      "Properties": {
+        "Pkb": 0.2,
+        "Floors": 2,
+        "Population": 5
+      }
     }
   ]
 }

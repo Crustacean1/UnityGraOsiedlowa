@@ -65,7 +65,6 @@ public class MainMenu : MonoBehaviour
 
     public void StartGame()
     {
-        UnityEngine.Debug.Log("Hajime");
         if (Username.text.Length < 2)
         {
             UnityEngine.Debug.Log("No username selected");
