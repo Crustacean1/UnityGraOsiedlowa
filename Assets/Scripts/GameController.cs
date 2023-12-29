@@ -4,17 +4,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Represents an instance of a building with associated sprite and mesh.
+/// </summary>
 public class BuildingInstance
 {
     public Sprite sprite;
     public Mesh mesh;
 }
 
+/// <summary>
+/// Container structure for a list of building definitions.
+/// </summary>
 public struct BuildingContainer
 {
     public List<BuildingDefinition> Buildings;
 }
 
+/// <summary>
+/// Structure to store score-related information.
+/// </summary>
 public struct Score
 {
     public float QualityOfLife;
@@ -22,16 +31,32 @@ public struct Score
     public float Pkb;
 }
 
+/// <summary>
+/// Controls the game logic and interactions.
+/// </summary>
 public class GameController : MonoBehaviour
 {
     private LevelDefinition levelInfo;
     private Player player;
 
+    /// <summary>
+    /// Number of cards to draw in the game.
+    /// </summary>
     public int CardsToDraw;
 
+    /// <summary>
+    /// Accessor for the current level information.
+    /// </summary>
     public LevelDefinition LevelInfo => levelInfo;
+
+    /// <summary>
+    /// Accessor for the player information.
+    /// </summary>
     public Player Player => player;
 
+    /// <summary>
+    /// Reference to the deck of cards.
+    /// </summary>
     public Deck CardDeck;
 
     // Start is called before the first frame update
@@ -65,6 +90,10 @@ public class GameController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Attempts to spend a bomb in the game.
+    /// </summary>
+    /// <returns>True if the bomb was successfully spent, false otherwise.</returns>
     public bool TrySpendBomb()
     {
         if (levelInfo.Bombs > 0)

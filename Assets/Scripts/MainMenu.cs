@@ -5,15 +5,32 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
+/// <summary>
+/// Manages the main menu interface and interactions.
+/// </summary>
 public class MainMenu : MonoBehaviour
 {
     private int selectedLevel = -1;
     private LevelButton[] levels;
 
+    /// <summary>
+    /// Text displaying the username in the main menu.
+    /// </summary>
     public TMP_Text Username;
+
+    /// <summary>
+    /// Panel containing level buttons in the main menu.
+    /// </summary>
     public Transform LevelPanel;
+
+    /// <summary>
+    /// Prefab for the level label button.
+    /// </summary>
     public GameObject LevelLabelPrefab;
 
+    /// <summary>
+    /// Reference to the main GodScript managing game states.
+    /// </summary>
     public GodScript godScript;
 
     // Start is called before the first frame update
@@ -63,6 +80,9 @@ public class MainMenu : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Initiates the game with selected username and difficulty level.
+    /// </summary>
     public void StartGame()
     {
         if (Username.text.Length < 2)

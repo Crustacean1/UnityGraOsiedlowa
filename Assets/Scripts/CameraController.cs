@@ -4,6 +4,9 @@ using System.Collections.Specialized;
 using System.Diagnostics;
 using UnityEngine;
 
+/// <summary>
+/// Controls the camera's movement and orientation in the scene.
+/// </summary>
 public class CameraController : MonoBehaviour
 {
 
@@ -13,6 +16,9 @@ public class CameraController : MonoBehaviour
 
     private float radius = 10;
 
+    /// <summary>
+    /// Speed of the camera movement.
+    /// </summary>
     public float CameraSpeed;
     // Start is called before the first frame update
     void Start()
@@ -20,6 +26,9 @@ public class CameraController : MonoBehaviour
         LocalCamera = gameObject.GetComponent<Camera>();
     }
 
+    /// <summary>
+    /// Computes the orientation of the camera based on its position and orientation angles.
+    /// </summary>
     void computeOrientation()
     {
         Vector3 position = new Vector3(0, -1, -radius);
@@ -29,7 +38,9 @@ public class CameraController : MonoBehaviour
         gameObject.transform.position = position;
     }
 
-    // Update is called once per frame
+    /// <summary>
+    /// Called once per frame to update camera movement and orientation.
+    /// </summary>
     void Update()
     {
         var mousePos = Input.mousePosition;

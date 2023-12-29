@@ -2,13 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Controls the Point of View (PoV) movement using keyboard and mouse input.
+/// </summary>
 public class PoVController : MonoBehaviour
 {
     private float xTurn = 0;
     private float yTurn = 0;
 
+    /// <summary>
+    /// Speed of movement.
+    /// </summary>
     public float MovementSpeed;
+
+    /// <summary>
+    /// Speed of turning.
+    /// </summary>
     public float TurnSpeed;
+
+    /// <summary>
+    /// Reference to the Rigidbody component.
+    /// </summary>
     public Rigidbody Physical;
 
     // Start is called before the first frame update
@@ -17,7 +31,7 @@ public class PoVController : MonoBehaviour
 
     }
 
-    // Update is called once per frame
+    /// Update is called once per frame
     void FixedUpdate()
     {
         var delta = new Vector3();

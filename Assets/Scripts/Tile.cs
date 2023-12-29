@@ -6,17 +6,26 @@ using System.ComponentModel;
 using System.Diagnostics;
 using UnityEngine;
 
+/// <summary>
+/// Event arguments class for tile selection.
+/// </summary>
 public class TileSelectedEvent : EventArgs
 {
     public Tile Tile;
 }
 
+/// <summary>
+/// Event arguments class for building selection.
+/// </summary>
 public class BuildingSelectedEvent : EventArgs
 {
     public Tile Tile;
     public BuildingDefinition Definition;
 }
 
+/// <summary>
+/// Class representing a tile in the game world.
+/// </summary>
 public class Tile : MonoBehaviour
 {
     private bool hover;
@@ -35,6 +44,12 @@ public class Tile : MonoBehaviour
     public event EventHandler<BuildingSelectedEvent> BuildingSelected;
     public event EventHandler<TileSelectedEvent> TileSelected;
 
+    /// <summary>
+    /// Instantiates the tile.
+    /// </summary>
+    /// <param name="board">The board this tile belongs to.</param>
+    /// <param name="id">The ID of the tile.</param>
+    /// <param name="landscape">The landscape index for the tile.</param>
     public void Instantiate(Board board, int id, int landscape)
     {
         this.id = id;
@@ -98,11 +113,17 @@ public class Tile : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Checks if the tile is empty.
+    /// </summary>
     public bool IsEmpty()
     {
         return transform.childCount < 4;
     }
 
+    /// <summary>
+    /// Retrieves the building definition attached to the tile.
+    /// </summary>
     public BuildingDefinition GetBuildingDefinition()
     {
         foreach (Transform child in transform)
@@ -115,6 +136,9 @@ public class Tile : MonoBehaviour
         return null;
     }
 
+    /// <summary>
+    /// When mouse hovers over the tile.
+    /// </summary>
     void OnHoverEntry()
     {
         var color = Color.white;
@@ -133,12 +157,18 @@ public class Tile : MonoBehaviour
         tileMesh.materials = materials;
     }
 
+    /// <summary>
+    /// When mouse leaves the tile.
+    /// </summary>
     void OnHoverExit()
     {
         var materials = new Material[] { tileMesh.material };
         tileMesh.materials = materials;
     }
 
+    /// <summary>
+    /// When pressing the tile.
+    /// </summary>
     void OnClick()
     {
         if (GetBuildingDefinition() is BuildingDefinition definition)

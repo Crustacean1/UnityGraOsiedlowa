@@ -5,7 +5,9 @@ using UnityEngine;
 using System.Text.Json;
 using UnityEngine.SceneManagement;
 
-
+/// <summary>
+/// Represents a requirement in the game.
+/// </summary>
 [Serializable]
 public class Requirement
 {
@@ -15,6 +17,9 @@ public class Requirement
     public float Max;
 }
 
+/// <summary>
+/// Represents the definition of a game level.
+/// </summary>
 [Serializable]
 public class LevelDefinition
 {
@@ -24,6 +29,9 @@ public class LevelDefinition
     public string Difficulty;
 }
 
+/// <summary>
+/// Represents a property of a building.
+/// </summary>
 [Serializable]
 public class BuildingProperty
 {
@@ -31,6 +39,9 @@ public class BuildingProperty
     public string Value;
 }
 
+/// <summary>
+/// Represents the definition of a building.
+/// </summary>
 [Serializable]
 public class BuildingDefinition
 {
@@ -41,21 +52,34 @@ public class BuildingDefinition
     public Dictionary<string, float> Properties = new Dictionary<string, float>();
 }
 
+/// <summary>
+/// Represents a player in the game.
+/// </summary>
 public class Player
 {
     public string Name;
 }
 
-
+/// <summary>
+/// Controls the game state and transitions between scenes.
+/// </summary>
 public class GodScript : MonoBehaviour
 {
     Player player;
+
     LevelDefinition currentLevel;
 
     public List<LevelDefinition> LevelDefinitions;
     public List<BuildingDefinition> BuildingDefinitions;
 
+    /// <summary>
+    /// Accessor for the current level definition.
+    /// </summary>
     public LevelDefinition CurrentLevel => currentLevel;
+
+    /// <summary>
+    /// Accessor for the player information.
+    /// </summary>
     public Player Player => player;
 
     enum GameState
@@ -80,6 +104,11 @@ public class GodScript : MonoBehaviour
         DontDestroyOnLoad(transform.gameObject);
     }
 
+    /// <summary>
+    /// Starts the game with the selected player and level.
+    /// </summary>
+    /// <param name="player">The player to start the game with.</param>
+    /// <param name="selectedLevel">The index of the selected level.</param>
     public void StartGame(Player player, int selectedLevel)
     {
         currentLevel = LevelDefinitions[selectedLevel];
@@ -88,6 +117,9 @@ public class GodScript : MonoBehaviour
         SceneManager.LoadSceneAsync("MainGameScene", LoadSceneMode.Single);
     }
 
+    /// <summary>
+    /// Finishes the current game and loads the end scene.
+    /// </summary>
     public void FinishGame()
     {
         SceneManager.LoadSceneAsync("EndScene", LoadSceneMode.Single);

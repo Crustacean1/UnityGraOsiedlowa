@@ -6,11 +6,17 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
 
+/// <summary>
+/// Event triggered when a building card is selected.
+/// </summary>
 public class BuildingCardSelectedEvent
 {
     public BuildingDefinition definition;
 }
 
+/// <summary>
+/// UI script for displaying information on a building card.
+/// </summary>
 public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public TMP_Text Name;
@@ -20,11 +26,18 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public TMP_Text Residents;
     public Image CardImage;
 
+    /// <summary>
+    /// Event triggered when the card is selected.
+    /// </summary>
     public event EventHandler<BuildingCardSelectedEvent> CardSelected;
 
     private BuildingDefinition buildingDefinition;
     private bool hover;
 
+    /// <summary>
+    /// Sets up the card UI with building information.
+    /// </summary>
+    /// <param name="cardInfo">The building information to display on the card.</param>
     public void Instantiate(BuildingDefinition cardInfo)
     {
         buildingDefinition = cardInfo;
@@ -47,12 +60,18 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         }
     }
 
+    /// <summary>
+    /// Called when the pointer enters the card's area.
+    /// </summary>
     public void OnPointerEnter(PointerEventData eventData)
     {
         gameObject.GetComponent<Image>().color = new Color32(50, 50, 50, 255);
         hover = true;
     }
 
+    /// <summary>
+    /// Called when the pointer exits the card's area.
+    /// </summary>
     public void OnPointerExit(PointerEventData eventData)
     {
         gameObject.GetComponent<Image>().color = new Color32(30, 30, 30, 255);

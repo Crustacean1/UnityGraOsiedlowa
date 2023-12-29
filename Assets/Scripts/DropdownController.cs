@@ -6,6 +6,9 @@ using UnityEngine.UI;
 using UnityEngine;
 using TMPro;
 
+/// <summary>
+/// Represents information for a specific level.
+/// </summary>
 [Serializable]
 public class LevelInfo
 {
@@ -16,10 +19,19 @@ public class LevelInfo
     public string[] Parameters;
 }
 
+/// <summary>
+/// Controls the dropdown menu for selecting levels.
+/// </summary>
 public class DropdownController : MonoBehaviour
 {
+    /// <summary>
+    /// Array of level descriptions.
+    /// </summary>
     public LevelInfo[] LevelDescription;
 
+    /// <summary>
+    /// The dropdown UI element to display levels.
+    /// </summary>
     public TMP_Dropdown LevelDropdown;
     // Start is called before the first frame update
     void Start()

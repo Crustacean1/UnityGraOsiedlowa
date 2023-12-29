@@ -3,8 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
+/// <summary>
+/// Class responsible for displaying building information in the HUD.
+/// </summary>
 public class BuildingHud : MonoBehaviour
 {
+    /// <summary>
+    /// Text component used to display building information.
+    /// </summary>
     public TMP_Text text;
 
     // Start is called before the first frame update
@@ -13,6 +19,10 @@ public class BuildingHud : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Focuses on displaying information for the provided building definition.
+    /// </summary>
+    /// <param name="definition">The definition of the building to display information for.</param>
     public void Focus(BuildingDefinition definition)
     {
         System.Func<string, string> format = (string key) =>

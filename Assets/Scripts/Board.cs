@@ -7,15 +7,23 @@ using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.AI;
 
-
+/// <summary>
+/// Event triggered when a bomb is detonated.
+/// </summary>
 public class BombDetonated
 {
 }
 
+/// <summary>
+/// Event triggered when a building is created.
+/// </summary>
 public class BuildingCreatedEvent
 {
 }
 
+/// <summary>
+/// Enum defining player actions.
+/// </summary>
 public enum PlayerAction
 {
     Building,
@@ -23,8 +31,15 @@ public enum PlayerAction
     Info
 }
 
+/// <summary>
+/// Main class controlling the game board.
+/// </summary>
 public class Board : MonoBehaviour
 {
+
+    /// <summary>
+    /// Random object for generating random values.
+    /// </summary>
     private System.Random random = new System.Random();
 
     float timeSinceLastPedestrian = 0;
@@ -46,10 +61,24 @@ public class Board : MonoBehaviour
     public BuildingDefinition SelectedBuildingDefinition { get; set; }
     public PlayerAction CurrentPlayerAction { get; set; }
 
+    /// <summary>
+    /// Event triggered when a bomb is detonated.
+    /// </summary>
     public event System.EventHandler<BombDetonated> BombDetonated;
+
+    /// <summary>
+    /// Event triggered when a building is created.
+    /// </summary>
     public event System.EventHandler<BuildingCreatedEvent> BuildingCreated;
+
+    /// <summary>
+    /// Indicates if raycast is enabled.
+    /// </summary>
     public bool RaycastEnabled { get; set; }
 
+    /// <summary>
+    /// Updates the current requirements based on the board's state.
+    /// </summary>
     void UpdateRequirements()
     {
         foreach (var requirement in gameManager.LevelInfo.Requirements)
@@ -225,6 +254,11 @@ public class Board : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Creates a building at the specified transform.
+    /// </summary>
+    /// <param name="transform">The transform to place the building.</param>
+    /// <returns>The instantiated building GameObject.</returns>
     public GameObject CreateBuilding(Transform transform)
     {
         return Instantiate(Building, transform);

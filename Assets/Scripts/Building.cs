@@ -2,13 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Class representing a building in the game.
+/// </summary>
 public class Building : MonoBehaviour
 {
+    /// <summary>
+    /// Private field storing the building definition.
+    /// </summary>
     private BuildingDefinition definition;
 
+    /// <summary>
+    /// Public property representing the mesh filter of the building.
+    /// </summary>
     public MeshFilter Mesh;
+
+    /// <summary>
+    /// Public property providing access to the building's definition.
+    /// </summary>
     public BuildingDefinition Definition => definition;
-    
+
+    /// <summary>
+    /// Instantiates the building with the specified building definition.
+    /// </summary>
+    /// <param name="buildingDefinition">The definition of the building to instantiate.</param>
     public void Instantiate(BuildingDefinition buildingDefinition)
     {
         definition = buildingDefinition;

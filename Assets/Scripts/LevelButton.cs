@@ -6,6 +6,9 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
 
+/// <summary>
+/// Represents a parameter with a name, minimum, and maximum values.
+/// </summary>
 [Serializable]
 public class Parameter
 {
@@ -14,17 +17,38 @@ public class Parameter
     public float Max;
 }
 
+/// <summary>
+/// Controls the behavior of a level selection button.
+/// </summary>
 public class LevelButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     private bool hover;
     private Action onSelect;
     private int id;
 
+    /// <summary>
+    /// Accessor for the button's ID.
+    /// </summary>
     public int Id => id;
+
+    /// <summary>
+    /// Gets or sets the selection status of the button.
+    /// </summary>
     public bool IsSelected { get; set; }
+
+    /// <summary>
+    /// List of parameters associated with the button.
+    /// </summary>
     public List<Parameter> Parameters;
 
+    /// <summary>
+    /// Text displaying the button's name.
+    /// </summary>
     public TMP_Text Text;
+
+    /// <summary>
+    /// Icon representing the button.
+    /// </summary>
     public Image Icon;
 
     // Start is called before the first frame update
@@ -33,6 +57,12 @@ public class LevelButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     }
 
+    /// <summary>
+    /// Initializes the level button with specified ID, name, and action on selection.
+    /// </summary>
+    /// <param name="id">ID of the button.</param>
+    /// <param name="name">Name of the button.</param>
+    /// <param name="onSelect">Action to perform on selection.</param>
     public void Instantiate(int id, string name, Action onSelect)
     {
         this.id = id;

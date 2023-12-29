@@ -2,8 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Controls the behavior of pedestrian NPCs.
+/// </summary>
 public class Pedestrian : MonoBehaviour
 {
+    /// <summary>
+    /// Reference to the NavMeshAgent component.
+    /// </summary>
     public UnityEngine.AI.NavMeshAgent agent;
     // Start is called before the first frame update
     void Start()

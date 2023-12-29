@@ -11,28 +11,84 @@ using System.Collections.Specialized;
 using System.Security.Permissions;
 using TMPro;
 
+/// <summary>
+/// Controls the deck of cards, card interactions, and player actions.
+/// </summary>
 public class Deck : MonoBehaviour
 {
+    /// <summary>
+    /// The index of the selected card.
+    /// </summary>
     private int selectedCard = -1;
 
+    /// <summary>
+    /// Reference to the game's controller.
+    /// </summary>
     public GameController gameManager;
+
+    /// <summary>
+    /// Reference to the game board.
+    /// </summary>
     public Board GameBoard;
 
+    /// <summary>
+    /// The UI element for the deck.
+    /// </summary>
     public GameObject DeckUi;
+
+    /// <summary>
+    /// The UI element for a card.
+    /// </summary>
     public GameObject UICard;
+
+    /// <summary>
+    /// The UI element for in-game actions.
+    /// </summary>
     public GameObject ActionUi;
+
+    /// <summary>
+    /// The player object in the game.
+    /// </summary>
     public GameObject Player;
+
+    /// <summary>
+    /// Information about escape options.
+    /// </summary>
     public GameObject EscapeInfo;
+
+    /// <summary>
+    /// The button to trigger bombing action.
+    /// </summary>
     public GameObject BombButton;
 
+    /// <summary>
+    /// Number of cards in the player's hand.
+    /// </summary>
     public int CardsInHand;
 
+    /// <summary>
+    /// Margin from the bottom for the cards.
+    /// </summary>
     public float BottomMargin;
+
+    /// <summary>
+    /// Gap between cards.
+    /// </summary>
     public float CardGap;
 
+    /// <summary>
+    /// The list of building definitions.
+    /// </summary>
     public List<BuildingDefinition> BuildingDefinitions;
+
+    /// <summary>
+    /// The currently selected building definition.
+    /// </summary>
     public BuildingDefinition SelectedBuildingDefinition => selectedCard > 0 ? BuildingDefinitions[selectedCard] : null;
 
+    /// <summary>
+    /// Checks if the UI is selected.
+    /// </summary>
     public bool IsUiSelected
     {
         get
@@ -53,6 +109,9 @@ public class Deck : MonoBehaviour
         GameBoard.BuildingCreated += OnBuildingCreated;
     }
 
+    /// <summary>
+    /// Shows the end turn actions.
+    /// </summary>
     public void ShowEndTurnActions()
     {
         GameBoard.CurrentPlayerAction = PlayerAction.Info;
@@ -61,6 +120,9 @@ public class Deck : MonoBehaviour
         ActionUi.SetActive(true);
     }
 
+    /// <summary>
+    /// Event handler for deck recreation.
+    /// </summary>
     public void RecreateDeck(IEnumerable<BuildingDefinition> definitions)
     {
         foreach (Transform card in DeckUi.transform)
@@ -84,6 +146,9 @@ public class Deck : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Event handler for drawing cards.
+    /// </summary>
     public void DrawCards()
     {
         GameBoard.CurrentPlayerAction = PlayerAction.Info;
@@ -94,11 +159,17 @@ public class Deck : MonoBehaviour
         DeckUi.SetActive(true);
     }
 
+    /// <summary>
+    /// Event handler for bomb placement.
+    /// </summary>
     public void BombBuilding()
     {
         GameBoard.CurrentPlayerAction = PlayerAction.Bombing;
     }
 
+    /// <summary>
+    /// Event handler for refreshing bomb button.
+    /// </summary>
     public void RefreshBombButton()
     {
         var bombsLeft = gameManager.LevelInfo.Bombs;
@@ -106,6 +177,9 @@ public class Deck : MonoBehaviour
         BombButton.GetComponent<Button>().interactable = bombsLeft > 0;
     }
 
+    /// <summary>
+    /// Event handler for walking.
+    /// </summary>
     public void WalkAround()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -120,6 +194,9 @@ public class Deck : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Event handler for exit.
+    /// </summary>
     public void Exit()
     {
         UnityEngine.Debug.Log("Ending play");
@@ -146,6 +223,9 @@ public class Deck : MonoBehaviour
         return card;
     }
 
+    /// <summary>
+    /// Script for selecting a card.
+    /// </summary>
     public void SelectCard(string name)
     {
         selectedCard = BuildingDefinitions.FindIndex(b => b.Name == name);
@@ -165,7 +245,9 @@ public class Deck : MonoBehaviour
         return newCards.Select(i => BuildingDefinitions[i]).ToList();
     }
 
-
+    /// <summary>
+    /// Definitions for building loading.
+    /// </summary>
     private void LoadBuildingDefinitions()
     {
         var buildings = Resources.Load<TextAsset>("BuildingDefinitions/buildings");
@@ -192,16 +274,25 @@ public class Deck : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Event handler for bomb detonation.
+    /// </summary>
     public void OnBombDetonated(object sender, BombDetonated e)
     {
         RefreshBombButton();
     }
 
+    /// <summary>
+    /// Event handler for building creation.
+    /// </summary>
     public void OnBuildingCreated(object sender, BuildingCreatedEvent e)
     {
         ShowEndTurnActions();
     }
 
+    /// <summary>
+    /// Event handler for card selection.
+    /// </summary>
     public void OnCardSelected(object sender, BuildingCardSelectedEvent e)
     {
         GameBoard.SelectedBuildingDefinition = e.definition;
