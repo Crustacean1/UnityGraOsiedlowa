@@ -18,6 +18,8 @@ public class Requirement
 [Serializable]
 public class LevelDefinition
 {
+    public int TotalTurns;
+    public int CurrentTurn;
     public int Bombs;
     public List<Requirement> Requirements;
     public string Name;
@@ -25,20 +27,14 @@ public class LevelDefinition
 }
 
 [Serializable]
-public class BuildingProperty
-{
-    public string Name;
-    public string Value;
-}
-
-[Serializable]
 public class BuildingDefinition
 {
+    public int Level = 1;
     public string Name;
     public string Sprite;
     public string Mesh;
 
-    public Dictionary<string, float> Properties = new Dictionary<string, float>();
+    public Dictionary<string, List<float>> Properties = new Dictionary<string, List<float>>();
 }
 
 public class Player

@@ -19,6 +19,7 @@ public class BuildingCreatedEvent
 public enum PlayerAction
 {
     Building,
+    RoadBuilding,
     Bombing,
     Info
 }
@@ -26,6 +27,11 @@ public enum PlayerAction
 public class Board : MonoBehaviour
 {
     private System.Random random = new System.Random();
+
+    private IList<Road> Roads = new List<Road>();
+    private Road? SelectedRoad = null;
+    private IList<Tile> Tiles = new List<Tile>();
+    private Tile? SelectedTile = null;
 
     float timeSinceLastPedestrian = 0;
 
@@ -39,7 +45,10 @@ public class Board : MonoBehaviour
     public GameObject Building;
     public BuildingHud BuildingHud;
     public int BoardSize;
+
     public GameObject Tile;
+    public GameObject Road;
+
     public float Size;
     public NavMeshSurface navMesh;
 
@@ -68,7 +77,7 @@ public class Board : MonoBehaviour
                         UnityEngine.Debug.Log($"Found property: {property.Key}");
                         if (gameManager.LevelInfo.Requirements.SingleOrDefault(req => req.Name == property.Key) is Requirement value)
                         {
-                            value.Current += property.Value;
+                            value.Current += property.Value[definition.Level];
                         }
                     }
                 }
@@ -85,14 +94,37 @@ public class Board : MonoBehaviour
             Vector3 rowStart = new Vector3(0.5f * Mathf.Abs((float)i - BoardSize + 1), 0, 0.5f * i * Mathf.Sqrt(3)) * Size - (BoardSize - 1) * new Vector3(Size, 0, Size * 0.5f * Mathf.Sqrt(3));
             for (int j = 0; j < BoardSize + BoardSize - 1 - Mathf.Abs(i - BoardSize + 1); j++)
             {
-                var tile = Instantiate(Tile, rowStart + j * new Vector3(Size, 0, 0), Quaternion.identity);
+                var tilePosition = rowStart + j * new Vector3(Size, 0, 0);
+                var tile = Instantiate(Tile, tilePosition, Quaternion.identity);
                 tile.transform.parent = gameObject.transform;
                 tile.transform.localRotation = Quaternion.Euler(Vector3.up * 30);
 
                 Tile tile_component = tile.GetComponent<Tile>();
-                tile_component.Instantiate(this, i * BoardSize + j, 0);
+                tile_component.Instantiate(i * BoardSize + j, 0);
                 tile_component.TileSelected += OnBuildingCreation;
                 tile_component.BuildingSelected += OnBuildingSelected;
+
+                Tiles.Add(tile_component);
+
+                if (i != 0 && (j + 1 != BoardSize + BoardSize - 1 - Mathf.Abs(i - BoardSize + 1) || i > BoardSize - 1))
+                {
+                    var orientation = Quaternion.AngleAxis(60, Vector3.up);
+                    var road = Instantiate(Road, tilePosition + orientation * new Vector3(Size * 0.5f, 0.05f, 0), orientation, transform);
+                    Roads.Add(road.GetComponent<Road>());
+                }
+
+                if (j + 1 != BoardSize + BoardSize - 1 - Mathf.Abs(i - BoardSize + 1))
+                {
+                    var orientation = Quaternion.AngleAxis(0, Vector3.up);
+                    var road = Instantiate(Road, tilePosition + orientation * new Vector3(Size * 0.5f, 0.05f, 0), orientation, transform);
+                    Roads.Add(road.GetComponent<Road>());
+                }
+                if (i + 1 != BoardSize * 2 - 1 && (j + 1 != BoardSize + BoardSize - 1 - Mathf.Abs(i - BoardSize + 1) || i < BoardSize - 1))
+                {
+                    var orientation = Quaternion.AngleAxis(-60, Vector3.up);
+                    var road = Instantiate(Road, tilePosition + orientation * new Vector3(Size * 0.5f, 0.05f, 0), orientation, transform);
+                    Roads.Add(road.GetComponent<Road>());
+                }
             }
         }
         navMesh.BuildNavMesh();
@@ -212,6 +244,24 @@ public class Board : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (CurrentPlayerAction == PlayerAction.Building)
+            {
+                if (SelectedTile is not null)
+                {
+                    SelectedTile?.OnClick();
+                }
+            }
+            if (CurrentPlayerAction == PlayerAction.RoadBuilding)
+            {
+                if (SelectedRoad is not null)
+                {
+                    SelectedRoad?.OnClick();
+                    BuildingCreated?.Invoke(this, null);
+                }
+            }
+        }
         if (ShouldGeneratePedestrians())
         {
             if (timeSinceLastPedestrian > 1)
@@ -222,6 +272,31 @@ public class Board : MonoBehaviour
                 timeSinceLastPedestrian -= 1;
             }
             timeSinceLastPedestrian += Time.deltaTime * PedestrianGeneration;
+        }
+    }
+
+    void FixedUpdate()
+    {
+        if (CurrentPlayerAction == PlayerAction.RoadBuilding)
+        {
+            var newRoadSelection = Roads.Where(r => r.CheckForIntersection()).FirstOrDefault();
+            if (newRoadSelection != SelectedRoad)
+            {
+                SelectedRoad?.OnHoverExit();
+                newRoadSelection?.OnHoverEntry();
+                SelectedRoad = newRoadSelection;
+            }
+        }
+
+        if (CurrentPlayerAction != PlayerAction.RoadBuilding)
+        {
+            var newTileSelection = Tiles.Where(t => t.CheckForIntersection()).FirstOrDefault();
+            if (newTileSelection != SelectedTile)
+            {
+                SelectedTile?.OnHoverExit();
+                newTileSelection?.OnHoverEntry(this);
+                SelectedTile = newTileSelection;
+            }
         }
     }
 

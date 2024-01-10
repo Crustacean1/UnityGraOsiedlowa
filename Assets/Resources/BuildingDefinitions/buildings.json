@@ -5,9 +5,9 @@
       "Sprite": "hotel",
       "Mesh": "Fire_Station",
       "Properties": {
-        "Pkb": 0.2,
-        "Floors": 2,
-        "Population": 5
+        "Pkb": [ 0, 0, 0 ],
+        "Floors": [ 1, 2, 2 ],
+        "Population": [ 0, 0, 0 ]
       }
     },
     {
@@ -15,9 +15,9 @@
       "Sprite": "hospital",
       "Mesh": "Hospital",
       "Properties": {
-        "Pkb": 0.2,
-        "Floors": 2,
-        "Population": 5
+        "Pkb": [ 0, 0, 0 ],
+        "Floors": [ 3, 5, 8 ],
+        "Population": [ 0, 0, 0 ]
       }
     },
     {
@@ -25,9 +25,9 @@
       "Sprite": "theather",
       "Mesh": "Market",
       "Properties": {
-        "Pkb": 0.2,
-        "Floors": 2,
-        "Population": 5
+        "Pkb": [ 10, 20, 40 ],
+        "Floors": [ 1, 2, 2 ],
+        "Population": [ 0, 0, 0 ]
       }
     },
     {
@@ -35,9 +35,9 @@
       "Sprite": "office",
       "Mesh": "Police_Station",
       "Properties": {
-        "Pkb": 0.2,
-        "Floors": 2,
-        "Population": 5
+        "Pkb": [ 0, 0, 0 ],
+        "Floors": [ 2, 3, 4 ],
+        "Population": [ 10, 50, 100 ]
       }
     },
     {
@@ -45,9 +45,9 @@
       "Sprite": "home",
       "Mesh": "School",
       "Properties": {
-        "Pkb": 0.2,
-        "Floors": 2,
-        "Population": 5
+        "Pkb": [ 0, 0, 0 ],
+        "Floors": [ 1, 2, 3 ],
+        "Population": [ 0, 0, 0 ]
       }
     },
     {
@@ -55,9 +55,9 @@
       "Sprite": "square",
       "Mesh": "Workshop",
       "Properties": {
-        "Pkb": 0.2,
-        "Floors": 2,
-        "Population": 5
+        "Pkb": [ 5, 10, 100 ],
+        "Floors": [ 2, 2, 2 ],
+        "Population": [ 10, 100, 200 ]
       }
     }
   ]

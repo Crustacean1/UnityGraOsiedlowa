@@ -6,8 +6,16 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
 
+public enum CardType
+{
+    Road,
+    Upgrade,
+    Building
+};
+
 public class BuildingCardSelectedEvent
 {
+    public CardType Type;
     public BuildingDefinition definition;
 }
 
@@ -23,27 +31,64 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public event EventHandler<BuildingCardSelectedEvent> CardSelected;
 
     private BuildingDefinition buildingDefinition;
+    private CardType Type;
     private bool hover;
 
-    public void Instantiate(BuildingDefinition cardInfo)
+    public void Instantiate(CardDefinition cardInfo)
     {
-        buildingDefinition = cardInfo;
-
-        Name.text = cardInfo.Name;
-        Height.text = $"Height: ";
-        Area.text = $"Area: ";
-        Floors.text = $"Floors: ";
-        Residents.text = $"People: ";
-
-        UnityEngine.Debug.Log($"BuildingImages/{cardInfo.Sprite}");
-        var sprite = Resources.Load<Sprite>($"BuildingImages/{cardInfo.Sprite}");
-        if (sprite is not null)
+        Type = cardInfo.Type;
+        if (cardInfo.Type == CardType.Building)
         {
-            CardImage.sprite = sprite;
+            buildingDefinition = cardInfo.Definition;
+
+            Name.text = buildingDefinition.Name;
+            Height.text = $"Height: ";
+            Area.text = $"Area: ";
+            Floors.text = $"Floors: ";
+            Residents.text = $"People: ";
+
+            UnityEngine.Debug.Log($"BuildingImages/{buildingDefinition.Sprite}");
+            var sprite = Resources.Load<Sprite>($"BuildingImages/{buildingDefinition.Sprite}");
+            if (sprite is not null)
+            {
+                CardImage.sprite = sprite;
+            }
+            else
+            {
+                UnityEngine.Debug.Log("Failed to load sprite");
+            }
         }
-        else
+        if (cardInfo.Type == CardType.Road)
         {
-            UnityEngine.Debug.Log("Failed to load sprite");
+            buildingDefinition = null;
+
+            Name.text = "Road";
+
+            var sprite = Resources.Load<Sprite>($"BuildingImages/road");
+            if (sprite is not null)
+            {
+                CardImage.sprite = sprite;
+            }
+            else
+            {
+                UnityEngine.Debug.Log("Failed to load sprite");
+            }
+        }
+        if (cardInfo.Type == CardType.Upgrade)
+        {
+            buildingDefinition = null;
+
+            Name.text = "Upgrade";
+
+            var sprite = Resources.Load<Sprite>($"BuildingImages/upgrade");
+            if (sprite is not null)
+            {
+                CardImage.sprite = sprite;
+            }
+            else
+            {
+                UnityEngine.Debug.Log("Failed to load sprite");
+            }
         }
     }
 
@@ -69,7 +114,11 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         if (Input.GetMouseButtonDown(0) && hover)
         {
-            CardSelected?.Invoke(this, new BuildingCardSelectedEvent { definition = buildingDefinition });
+            CardSelected?.Invoke(this, new BuildingCardSelectedEvent
+            {
+                definition = buildingDefinition,
+                Type = Type
+            });
         }
     }
 }

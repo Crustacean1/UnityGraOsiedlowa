@@ -1029,6 +1029,7 @@ MonoBehaviour:
   BuildingHud: {fileID: 179012341}
   BoardSize: 4
   Tile: {fileID: 4857460077850429613, guid: 3b7c192bdb70b2543af9d371f9464ffd, type: 3}
+  Road: {fileID: 551510504913841810, guid: b9f94a06acf92134d96c0e0e6e05855b, type: 3}
   Size: 2.4
   navMesh: {fileID: 1599936680}
 --- !u!4 &533908100

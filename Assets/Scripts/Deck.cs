@@ -11,6 +11,12 @@ using System.Collections.Specialized;
 using System.Security.Permissions;
 using TMPro;
 
+public class CardDefinition
+{
+    public CardType Type;
+    public BuildingDefinition Definition;
+}
+
 public class Deck : MonoBehaviour
 {
     private int selectedCard = -1;
@@ -61,7 +67,7 @@ public class Deck : MonoBehaviour
         ActionUi.SetActive(true);
     }
 
-    public void RecreateDeck(IEnumerable<BuildingDefinition> definitions)
+    public void RecreateDeck(IEnumerable<CardDefinition> definitions)
     {
         foreach (Transform card in DeckUi.transform)
         {
@@ -130,7 +136,7 @@ public class Deck : MonoBehaviour
         }
     }
 
-    GameObject createCardUi(BuildingDefinition building, Vector3 position, int instance)
+    GameObject createCardUi(CardDefinition definition, Vector3 position, int instance)
     {
         var card = Instantiate(UICard, DeckUi.transform);
         card.transform.localPosition = new Vector3(0, 0, 0);
@@ -138,7 +144,7 @@ public class Deck : MonoBehaviour
         {
             if (card.GetComponent<CardUI>() is CardUI cardUI)
             {
-                cardUI.Instantiate(building);
+                cardUI.Instantiate(definition);
                 cardUI.CardSelected += OnCardSelected;
             }
         }
@@ -151,18 +157,28 @@ public class Deck : MonoBehaviour
         selectedCard = BuildingDefinitions.FindIndex(b => b.Name == name);
     }
 
-    public IEnumerable<BuildingDefinition> DrawRandomHand()
+    public IEnumerable<CardDefinition> DrawRandomHand()
     {
-        List<int> newCards = new();
-        System.Random random = new();
+        List<CardDefinition> newCards = new();
+        List<int> buildings = new();
 
-        while (newCards.Count() < CardsInHand)
+        System.Random random = new();
+        if (random.Next(0, 2) == 0)
         {
-            int pretender = random.Next(0, BuildingDefinitions.Count());
-            if (!newCards.Contains(pretender)) { newCards.Add(pretender); }
+            newCards.Add(new CardDefinition { Type = CardType.Road });
+        }
+        if (random.Next(0, 2) == 0)
+        {
+            newCards.Add(new CardDefinition { Type = CardType.Upgrade });
         }
 
-        return newCards.Select(i => BuildingDefinitions[i]).ToList();
+        while (newCards.Count() + buildings.Count() < CardsInHand)
+        {
+            int pretender = random.Next(0, BuildingDefinitions.Count());
+            if (!buildings.Contains(pretender)) { buildings.Add(pretender); }
+        }
+
+        return buildings.Select(i => new CardDefinition { Definition = BuildingDefinitions[i], Type = CardType.Building }).Concat(newCards).ToList();
     }
 
 
@@ -204,7 +220,14 @@ public class Deck : MonoBehaviour
 
     public void OnCardSelected(object sender, BuildingCardSelectedEvent e)
     {
-        GameBoard.SelectedBuildingDefinition = e.definition;
-        GameBoard.CurrentPlayerAction = PlayerAction.Building;
+        if (e.Type == CardType.Building)
+        {
+            GameBoard.CurrentPlayerAction = PlayerAction.Building;
+            GameBoard.SelectedBuildingDefinition = e.definition;
+        }
+        if(e.Type == CardType.Road)
+        {
+            GameBoard.CurrentPlayerAction = PlayerAction.RoadBuilding;
+        }
     }
 }

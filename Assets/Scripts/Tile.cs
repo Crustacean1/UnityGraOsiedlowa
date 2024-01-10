@@ -21,7 +21,6 @@ public class Tile : MonoBehaviour
 {
     private bool hover;
     private MeshRenderer tileMesh;
-    private Board board;
 
     public int id;
     public bool IsActive;
@@ -35,32 +34,15 @@ public class Tile : MonoBehaviour
     public event EventHandler<BuildingSelectedEvent> BuildingSelected;
     public event EventHandler<TileSelectedEvent> TileSelected;
 
-    public void Instantiate(Board board, int id, int landscape)
+    public void Instantiate( int id, int landscape)
     {
         this.id = id;
-        this.board = board;
 
         var tile = Instantiate(Landscapes[landscape], gameObject.transform);
         tile.transform.localPosition = new Vector3(0, 0, 0);
         tile.transform.localRotation = Quaternion.identity;
         tileMesh = tile.transform.GetChild(0).gameObject.GetComponent<MeshRenderer>();
         tileCollider = tile.GetComponent<MeshCollider>();
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
-
-    void Update()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            if (hover)
-            {
-                OnClick();
-            }
-        }
     }
 
     public void Demolish()
@@ -75,27 +57,10 @@ public class Tile : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    public bool CheckForIntersection()
     {
-        if (board.RaycastEnabled)
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (tileCollider.Raycast(ray, out var hit, Mathf.Infinity))
-            {
-                if (!hover)
-                {
-                    hover = true;
-                    OnHoverEntry();
-                }
-                return;
-            }
-        }
-        if (hover)
-        {
-            OnHoverExit();
-            hover = false;
-        }
-
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        return tileCollider.Raycast(ray, out var hit, Mathf.Infinity);
     }
 
     public bool IsEmpty()
@@ -115,7 +80,7 @@ public class Tile : MonoBehaviour
         return null;
     }
 
-    void OnHoverEntry()
+    public void OnHoverEntry(Board board)
     {
         var color = Color.white;
 
@@ -133,13 +98,13 @@ public class Tile : MonoBehaviour
         tileMesh.materials = materials;
     }
 
-    void OnHoverExit()
+    public void OnHoverExit()
     {
         var materials = new Material[] { tileMesh.material };
         tileMesh.materials = materials;
     }
 
-    void OnClick()
+    public void OnClick()
     {
         if (GetBuildingDefinition() is BuildingDefinition definition)
         {
