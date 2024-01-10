@@ -19,7 +19,7 @@ public class BuildingHud : MonoBehaviour
         {
             if (definition.Properties.ContainsKey(key))
             {
-                return definition.Properties[key].ToString();
+                return definition.Properties[key][definition.Level].ToString();
             }
             else
             {
@@ -27,7 +27,7 @@ public class BuildingHud : MonoBehaviour
             }
         };
 
-        var name = $"Name : {definition.Name}";
+        var name = $"Name : {definition.Name} (Level {definition.Level}";
         var population = $"Population: {format("Population")}";
         var condignations = $"Floors: {format("Floors")}";
         var area = $"Area: {format("Area")}";

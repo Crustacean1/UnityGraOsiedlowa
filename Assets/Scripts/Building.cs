@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class Building : MonoBehaviour
 {
-    private BuildingDefinition definition;
+    public BuildingDefinition definition;
 
     public MeshFilter Mesh;
     public BuildingDefinition Definition => definition;
+    public Animator UpdateAnimation;
     
     public void Instantiate(BuildingDefinition buildingDefinition)
     {
@@ -27,10 +28,15 @@ public class Building : MonoBehaviour
         }
     }
 
+    public void AnimateUpdate()
+    {
+        definition.Level += 1;
+        UpdateAnimation.SetTrigger("UpdateTr");
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 
     // Update is called once per frame

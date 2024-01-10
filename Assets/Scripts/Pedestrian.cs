@@ -14,7 +14,6 @@ public class Pedestrian : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        UnityEngine.Debug.Log($"So close: {(transform.position - agent.destination).magnitude }");
         if ((transform.position - agent.destination).magnitude < 1)
         {
             Destroy(this.gameObject);

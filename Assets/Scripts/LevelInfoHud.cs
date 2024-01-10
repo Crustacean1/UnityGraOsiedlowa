@@ -26,7 +26,7 @@ public class LevelInfoHud : MonoBehaviour
         var levelInfo = gameController.LevelInfo;
         Level.text = $"Level: {levelInfo.Name}";
         Username.text = $"User: {gameController?.Player?.Name ?? "Joe Doe"}";
-        Stage.text = $"Stage: 0";
+        Stage.text = $"Stage: {gameController?.LevelInfo.CurrentTurn}";
 
         foreach (Transform child in RequirementsPanel.transform)
         {

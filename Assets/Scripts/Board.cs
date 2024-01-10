@@ -16,10 +16,16 @@ public class BuildingCreatedEvent
 {
 }
 
+public class BuildingUpdatedEvent
+{
+
+}
+
 public enum PlayerAction
 {
     Building,
     RoadBuilding,
+    Updating,
     Bombing,
     Info
 }
@@ -57,6 +63,8 @@ public class Board : MonoBehaviour
 
     public event System.EventHandler<BombDetonated> BombDetonated;
     public event System.EventHandler<BuildingCreatedEvent> BuildingCreated;
+    public event System.EventHandler<BuildingUpdatedEvent> BuildingUpdated;
+
     public bool RaycastEnabled { get; set; }
 
     void UpdateRequirements()
@@ -169,6 +177,7 @@ public class Board : MonoBehaviour
 
     public void OnBuildingCreation(object sender, TileSelectedEvent e)
     {
+        UnityEngine.Debug.Log($"Current action: {CurrentPlayerAction}");
         switch (CurrentPlayerAction)
         {
             case PlayerAction.Building:
@@ -184,27 +193,6 @@ public class Board : MonoBehaviour
                 break;
             default:
                 break;
-        }
-    }
-
-    public void OnBuildingSelected(object sender, BuildingSelectedEvent e)
-    {
-        switch (CurrentPlayerAction)
-        {
-            case PlayerAction.Building:
-                break;
-            case PlayerAction.Bombing:
-                if (gameManager.TrySpendBomb())
-                {
-                    e.Tile.Demolish();
-                    levelInfo.Refresh();
-                    BombDetonated?.Invoke(this, new());
-                }
-                break;
-            case PlayerAction.Info:
-                BuildingHud?.Focus(e.Definition);
-                break;
-
         }
     }
 
@@ -246,21 +234,7 @@ public class Board : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            if (CurrentPlayerAction == PlayerAction.Building)
-            {
-                if (SelectedTile is not null)
-                {
-                    SelectedTile?.OnClick();
-                }
-            }
-            if (CurrentPlayerAction == PlayerAction.RoadBuilding)
-            {
-                if (SelectedRoad is not null)
-                {
-                    SelectedRoad?.OnClick();
-                    BuildingCreated?.Invoke(this, null);
-                }
-            }
+            OnBuildingSelected(this, new());
         }
         if (ShouldGeneratePedestrians())
         {
@@ -274,6 +248,53 @@ public class Board : MonoBehaviour
             timeSinceLastPedestrian += Time.deltaTime * PedestrianGeneration;
         }
     }
+    public void OnBuildingSelected(object sender, BuildingSelectedEvent e)
+    {
+        switch (CurrentPlayerAction)
+        {
+            case PlayerAction.Building:
+                if (SelectedTile is not null)
+                {
+                    SelectedTile?.OnClick();
+                }
+                break;
+            case PlayerAction.Bombing:
+                if (gameManager.TrySpendBomb())
+                {
+                    SelectedTile.Demolish();
+                    levelInfo.Refresh();
+                    BombDetonated?.Invoke(this, new());
+                }
+                break;
+            case PlayerAction.RoadBuilding:
+                if (SelectedRoad is not null)
+                {
+                    SelectedRoad?.OnClick();
+                    BuildingCreated?.Invoke(this, null);
+                }
+                break;
+            case PlayerAction.Updating:
+                if (SelectedTile is not null)
+                {
+                    var obj = SelectedTile.transform.Cast<Transform>().FirstOrDefault((Transform child) => child.GetComponent<Building>() != null);
+                    if (obj?.GetComponent<Building>() is Building building)
+                    {
+                        building.AnimateUpdate();
+                    }
+                    BuildingCreated?.Invoke(this, null);
+                }
+                break;
+            case PlayerAction.Info:
+                var obj2 = SelectedTile.transform.Cast<Transform>().FirstOrDefault((Transform child) => child.GetComponent<Building>() != null);
+                if (obj2?.GetComponent<Building>() is Building building2)
+                {
+                    BuildingHud?.Focus(building2.definition);
+                }
+                break;
+
+        }
+    }
+
 
     void FixedUpdate()
     {

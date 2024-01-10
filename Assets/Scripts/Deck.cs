@@ -225,9 +225,13 @@ public class Deck : MonoBehaviour
             GameBoard.CurrentPlayerAction = PlayerAction.Building;
             GameBoard.SelectedBuildingDefinition = e.definition;
         }
-        if(e.Type == CardType.Road)
+        if (e.Type == CardType.Road)
         {
             GameBoard.CurrentPlayerAction = PlayerAction.RoadBuilding;
+        }
+        if (e.Type == CardType.Upgrade)
+        {
+            GameBoard.CurrentPlayerAction = PlayerAction.Updating;
         }
     }
 }
